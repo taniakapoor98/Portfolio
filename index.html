@@ -603,7 +603,7 @@ strong  {
 
     <header>
         <div class="content">
-            <img src="pic.jpg" alt="Profile Picture" class="profile-pic">
+           <img src="pic.jpg" alt="Profile Picture" class="profile-pic">
             <h1>Hi, I'm Tania Kapoor</h1>
             <p id="role-text">AI/ML Engineer | Data Scientist</p>
             <p id="header-quote" class="header-quote">
@@ -1010,64 +1010,65 @@ strong  {
     });
 
     // Carousel Functionality
-    const carouselSlide = document.querySelector('.carousel-slide');
-    const carouselCards = document.querySelectorAll('.skills-card');
-    const prevBtn = document.querySelector('.carousel-prev');
-    const nextBtn = document.querySelector('.carousel-next');
-    const carouselContainer = document.querySelector('.skills-carousel');
-    let currentIndex = 0;
-    const cardWidth = carouselCards[0]?.offsetWidth + 20 || 0;
-    const visibleCards = Math.floor(document.querySelector('.carousel-container')?.offsetWidth / cardWidth) || 1;
-    let autoSlideInterval;
+    // Carousel Functionality
+	const carouselSlide = document.querySelector('.carousel-slide');
+	const carouselCards = document.querySelectorAll('.skills-card');
+	const prevBtn = document.querySelector('.carousel-prev');
+	const nextBtn = document.querySelector('.carousel-next');
+	const carouselContainer = document.querySelector('.skills-carousel');
+	let currentIndex = 0;
+	const cardWidth = carouselCards[0]?.offsetWidth + 20 || 0; // Card width including gap
+	const visibleCards = Math.floor(document.querySelector('.carousel-container')?.offsetWidth / cardWidth) || 1;
+	let autoSlideInterval;
 
-    function updateCarousel() {
-        const maxIndex = carouselCards.length - visibleCards;
-        if (currentIndex < 0) currentIndex = 0;
-        if (currentIndex > maxIndex) currentIndex = maxIndex;
-        carouselSlide.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    }
+	function updateCarousel() {
+		const maxIndex = 2; // Hard limit to 2 right moves
+		if (currentIndex < 0) currentIndex = 0; // Minimum index
+		if (currentIndex > maxIndex) currentIndex = maxIndex; // Maximum index
+		carouselSlide.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+	}
 
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(() => {
-            currentIndex++;
-            if (currentIndex >= carouselCards.length - visibleCards + 1) {
-                currentIndex = 0; // Loop back to start
-            }
-            updateCarousel();
-        }, 2000); // Slide every 3 seconds
-    }
+	function startAutoSlide() {
+		autoSlideInterval = setInterval(() => {
+			currentIndex++;
+			if (currentIndex > 2) { // Loop back after reaching max of 2
+				currentIndex = 0;
+			}
+			updateCarousel();
+		}, 2000); // Slide every 2 seconds
+	}
 
-    function stopAutoSlide() {
-        clearInterval(autoSlideInterval);
-    }
+	function stopAutoSlide() {
+		clearInterval(autoSlideInterval);
+	}
 
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            stopAutoSlide(); // Stop auto-slide on manual interaction
-            currentIndex++;
-            updateCarousel();
-            startAutoSlide(); // Restart auto-slide
-        });
-    }
+	if (nextBtn) {
+		nextBtn.addEventListener('click', () => {
+			stopAutoSlide(); // Stop auto-slide on manual interaction
+			currentIndex++;
+			updateCarousel();
+			startAutoSlide(); // Restart auto-slide
+		});
+	}
 
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            stopAutoSlide(); // Stop auto-slide on manual interaction
-            currentIndex--;
-            updateCarousel();
-            startAutoSlide(); // Restart auto-slide
-        });
-    }
+	if (prevBtn) {
+		prevBtn.addEventListener('click', () => {
+			stopAutoSlide(); // Stop auto-slide on manual interaction
+			currentIndex--;
+			updateCarousel();
+			startAutoSlide(); // Restart auto-slide
+		});
+	}
 
-    // Pause on hover
-    if (carouselContainer) {
-        carouselContainer.addEventListener('mouseenter', stopAutoSlide);
-        carouselContainer.addEventListener('mouseleave', startAutoSlide);
-    }
+	// Pause on hover
+	if (carouselContainer) {
+		carouselContainer.addEventListener('mouseenter', stopAutoSlide);
+		carouselContainer.addEventListener('mouseleave', startAutoSlide);
+	}
 
-    window.addEventListener('resize', () => {
-        updateCarousel();
-    });
+	window.addEventListener('resize', () => {
+		updateCarousel();
+	});
 
     // Background Animation
     const canvas = document.getElementById('background-canvas');
